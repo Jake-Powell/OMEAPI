@@ -13,3 +13,5 @@ Imports:
     httr2,
     jsonlite
 RoxygenNote: 7.3.2
+URL: https://github.com/Jake-Powell/OMEAPI
+BugReports: https://github.com/Jake-Powell/OMEAPI/issues
