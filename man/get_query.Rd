@@ -4,14 +4,16 @@
 \alias{get_query}
 \title{Pull from OME database}
 \usage{
-get_query(url_path, filter = "", KEY = "")
+get_query(url_path, filter = "", token = "", verbose = F)
 }
 \arguments{
 \item{url_path}{the API endpoint}
 
 \item{filter}{Addition objects to pass via include. (not currently in use)}
 
-\item{KEY}{API token}
+\item{token}{API token}
+
+\item{verbose}{Flag (TRUE/FALSE) for console printing.}
 }
 \value{
 data frame of pulled information
