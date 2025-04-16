@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# OMEAPI
+# OMEAPI <a href="https://jake-powell.github.io/OMEAPI/"><img src="man/figures/logo.png" align="right" height="139" alt="OMEAPI website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end -->
