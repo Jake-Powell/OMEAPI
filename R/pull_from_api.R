@@ -49,8 +49,6 @@ get_query <- function(url_path, filter='', token = '', verbose = F){
   # data
 }
 
-
-
 #' Get base url
 #'
 #' @return
@@ -153,6 +151,7 @@ cs_schools <- function(token = NULL, id = NA, include =NA){
 #'
 #' @param token token
 #' @param id survey ID in CS database. If NA, all schools are pulled.
+#' @param output_type output_type
 #'
 #' @return data.frame of pulled information
 #' @export
@@ -172,12 +171,17 @@ cs_surveys <- function(token = NULL, id = NA){
 
 #' @rdname cs_surveys
 #' @export
-cs_surveys_responses <- function(token = NULL, id = NA){
+cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'clean'){
   if(is.na(id)) stop('Require id!')
   assert_is(id, 'numeric')
 
   url_use = paste0(cs_url(), 'surveys/',id,'/responses')
 
-  get_query(url_use, token = check_token(token))
+  raw = get_query(url_use, token = check_token(token))
+  if(output_type == 'raw') return(raw)
+
+  raw |> convert_list_element_to_df(column_to_unnest = 'responses') |>
+    tidyr::unnest(responses, names_sep ='__', keep_empty  = T)
+
 
 }

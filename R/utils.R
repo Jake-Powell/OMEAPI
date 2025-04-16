@@ -6,3 +6,21 @@ assert_is <- function(x,y){
     }
   }
 }
+
+#' convert sublist element of data frame to a data frame
+#'
+#' @param data data
+#' @param column_to_unnest column_to_unnest
+#'
+#' @return
+#'
+convert_list_element_to_df <- function(data, column_to_unnest){
+  for(i in 1:nrow(data)){
+    val = data[[column_to_unnest]][i][[1]]
+    if(is.list(val) &length(val) == 0){
+      data[[column_to_unnest]][i][[1]] = data.frame()
+    }
+  }
+  data
+}
+

@@ -20,15 +20,14 @@ knitr::opts_chunk$set(
 
 OMEAPI package is used to interact with the maths cohort studies database.
 
-## Installation
+# Installation
 
-You can install the development version of OMEAPI like so:
+Development version
 
-``` r
-# install.packages("devtools")
-devtools::install_github("Jake-Powell/OMESurvey")     
+## From GitHub
+
+```{r, eval = F}
+remotes::install_github("Jake-Powell/OMEAPI")
 ```
 
-## Example
-
-This will need filling later.
+***

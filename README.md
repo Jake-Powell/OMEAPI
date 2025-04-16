@@ -9,15 +9,14 @@
 OMEAPI package is used to interact with the maths cohort studies
 database.
 
-## Installation
+# Installation
 
-You can install the development version of OMEAPI like so:
+Development version
+
+## From GitHub
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("Jake-Powell/OMESurvey")     
+remotes::install_github("Jake-Powell/OMEAPI")
 ```
 
-## Example
-
-This will need filling later.
+------------------------------------------------------------------------
