@@ -1,3 +1,9 @@
+#' Check token
+#'
+#' @param x token
+#'
+#' @return
+#' @noRd
 check_token <- function(x = NULL ){
   tmp = x
   if (is.null(x)) tmp = Sys.getenv("OME_CS_TOKEN")

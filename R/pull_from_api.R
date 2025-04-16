@@ -36,22 +36,10 @@ get_query <- function(url_path, filter='', token = '', verbose = F){
   }
   data = do.call(rbind, data_all)
   data
-  # url_use = url_path
-  # req = httr2::request(url_use) |>
-  #   httr2::req_user_agent("OMEAPI") |>
-  #   httr2::req_auth_bearer_token(token = token) |>
-  #   httr2::req_perform()
-  #
-  # body = req$body |> rawToChar() |> jsonlite::prettify() |> jsonlite::fromJSON(simplifyDataFrame = T,flatten = T)
-  # data = body
-  # if(!is.data.frame(body)) data =  body$data |> as.data.frame()
-  #
-  # data
 }
 
 #' Get base url
-#'
-#' @return
+#' @noRd
 cs_url <- function(){
   return("https://mathscohortstudies-uat-backend.azurewebsites.net/api/Public/")
 }
@@ -108,6 +96,7 @@ cs_school_types <- function(token = NULL){
 #' @param token token
 #' @param endpoint endpoint
 #'
+#' @noRd
 cs_endpoint <- function(token = NULL, endpoint = ''){
   if(!endpoint %in% c('academic-years', 'school-years', 'response-types', 'response-value-groups', 'person-types', 'school-types', 'cohorts', 'surveys')){
     stop('Invalid endpoint')
