@@ -12,7 +12,7 @@ cs_surveys_responses(token = NULL, id = NA, output_type = "clean")
 \arguments{
 \item{token}{token}
 
-\item{id}{survey ID in CS database. If NA, all schools are pulled.}
+\item{id}{survey ID in CS database. If NA, all surveys are pulled.}
 
 \item{output_type}{output_type}
 }

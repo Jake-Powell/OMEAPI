@@ -37,13 +37,13 @@ A collection of functions to query "meta-information" from the Cohort Studies AP
 Query specific meta-information endpoints of the Cohort Studies database, in particular:
 
 \itemize{
-\item{cs_academic_years(): }{queries /api/Public/academic-years endpoint. }
-\item{cs_school_years(): }{queries /api/Public/school-years endpoint.}
-\item{cs_response_types(): }{queries /api/Public/response-types endpoint.}
-\item{cs_response_value_groups(): }{queries /api/Public/response-value-groups endpoint.}
-\item{cs_person_types(): }{queries /api/Public/person-types endpoint.}
-\item{cs_cohorts(): }{queries /api/Public/cohorts endpoint.}
-\item{cs_school_types(): }{queries /api/Public/school-types endpoint.}
+\item cs_academic_years(): queries /api/Public/academic-years endpoint.
+\item cs_school_years(): queries /api/Public/school-years endpoint.
+\item cs_response_types(): queries /api/Public/response-types endpoint.
+\item cs_response_value_groups(): queries /api/Public/response-value-groups endpoint.
+\item cs_person_types(): queries /api/Public/person-types endpoint.
+\item cs_cohorts(): queries /api/Public/cohorts endpoint.
+\item cs_school_types(): queries /api/Public/school-types endpoint.
 }
 
 Each function uses \code{\link[=get_query]{get_query()}}  to query specific endpoints.

@@ -31,6 +31,12 @@ get_query <- function(url_path, filter='', token = '', verbose = F){
     if('list' %in% names(body)){
       data = body$list |> as.data.frame()
     }else{
+      # added to stop list() from causing an error using as.data.frame().
+      for(i in 1:length(body)){
+        if(body[[i]] |> is.list() & length(body[[i]]) == 0){
+          body[[i]] = NA
+        }
+      }
       data = body |> as.data.frame()
     }
     data_all[[page]] =  data
@@ -66,13 +72,13 @@ cs_url <- function(){
 #' Query specific meta-information endpoints of the Cohort Studies database, in particular:
 #'
 #' \itemize{
-#' \item{cs_academic_years(): }{queries /api/Public/academic-years endpoint. }
-#' \item{cs_school_years(): }{queries /api/Public/school-years endpoint.}
-#' \item{cs_response_types(): }{queries /api/Public/response-types endpoint.}
-#' \item{cs_response_value_groups(): }{queries /api/Public/response-value-groups endpoint.}
-#' \item{cs_person_types(): }{queries /api/Public/person-types endpoint.}
-#' \item{cs_cohorts(): }{queries /api/Public/cohorts endpoint.}
-#' \item{cs_school_types(): }{queries /api/Public/school-types endpoint.}
+#' \item cs_academic_years(): queries /api/Public/academic-years endpoint.
+#' \item cs_school_years(): queries /api/Public/school-years endpoint.
+#' \item cs_response_types(): queries /api/Public/response-types endpoint.
+#' \item cs_response_value_groups(): queries /api/Public/response-value-groups endpoint.
+#' \item cs_person_types(): queries /api/Public/person-types endpoint.
+#' \item cs_cohorts(): queries /api/Public/cohorts endpoint.
+#' \item cs_school_types(): queries /api/Public/school-types endpoint.
 #' }
 #'
 #' Each function uses \code{\link[=get_query]{get_query()}}  to query specific endpoints.
@@ -153,11 +159,41 @@ cs_endpoint <- function(token = NULL, endpoint = ''){
 #' @inheritParams get_query
 #' @param include Character vector or objects to include. Accepted values are: 'class', 'student', 'teacher'.
 #' @param id school ID in CS database. If NA, all schools are pulled.
-#'
+#' @param flattern a flag (TRUE/FALSE) for whether we convert to a flat data.frame.
 #' @return data.frame of pulled information
 #' @export
 #'
-cs_schools <- function(token = NULL, id = NA, include =NA){
+#' @details
+#' Queries /api/Public/schools and /api/Public/schools/\{id\} endpoints.
+#'
+#' Note that schools are structured such that classes are nested within schools and teachers/students are nested within classes. Therefore, to include "student" and/or "teacher" we must also have "class" as an include parameter.
+#'
+#' By default the returned data.frame can have nested data.frames (within student, etc). By switching `flatten = T` the returned data frame can be flattened (converted to long format) to remove this nested structure.
+#'
+#' @examplesIf FALSE
+#' # Setup API token
+#' set_token('ENTER_TOKEN_HERE')
+#'
+#' # Query all schools.
+#' schools = cs_schools()
+#'
+#' # Query schools with all include options.
+#' schools_with_details = cs_schools(include = c('class', 'student', 'teacher'))
+#'
+#' # Query schools with only student include option
+#' # (note that without class this is the same as including no options).
+#' schools_with_details = cs_schools(include = c('student'))
+#'
+#' # Query a single school
+#' estab_number = schools$establishmentNumber[1] |> as.numeric()
+#' school = cs_schools(id = estab_number,  include = c('class', 'student', 'teacher'))
+#'
+#' # Query a single school where we flattern the student/teacher information.
+#' school_flat = cs_schools(id = estab_number,
+#'   include = c('class', 'student', 'teacher'),
+#'    flattern = T)
+#'
+cs_schools <- function(token = NULL, id = NA, include = NA, flattern = F){
 
   if(any(!include %in% c('class', 'teacher', 'student', NA))) stop('Invalid `include` values!')
 
@@ -173,6 +209,11 @@ cs_schools <- function(token = NULL, id = NA, include =NA){
   }
 
   out = get_query(url_use, token = check_token(token),filter = filter)
+
+  if(!flattern){
+    return(out)
+  }
+  out |> flatten_df()
 
 }
 
@@ -216,7 +257,7 @@ cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'clean'){
   }
 
   raw |> convert_list_element_to_df(column_to_unnest = 'responses') |>
-    tidyr::unnest(responses, names_sep ='__', keep_empty  = T)
+    tidyr::unnest(tidyselect::all_of('responses'), names_sep ='__', keep_empty  = T)
 
 
 }
