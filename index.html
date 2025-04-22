@@ -32,13 +32,15 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/How-to-use-OMEAPI.html">Get started</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/How-to-use-OMEAPI.html">Introduction to OMEAPI</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -68,19 +70,27 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>OMEAPI package is used to interact with the maths cohort studies database.</p>
+<p>OMEAPI package is used to query the maths cohort studies database and create basic analysis and graphs from the extracted information. The functions within the package cover all endpoints of the cohort studies API. The use of the package requires an API token to use. For information to obtain an API key please contact <a href="mailto:mathsobservatory@nottingham.ac.uk" class="email">mathsobservatory@nottingham.ac.uk</a>.</p>
 </div>
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
-<p>Development version</p>
-<div class="section level2">
-<h2 id="from-github">From GitHub<a class="anchor" aria-label="anchor" href="#from-github"></a>
-</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Jake-Powell/OMEAPI"</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
+<div class="section level1">
+<h1 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h1>
+<p>For the example below to work you will need an API token which you can set with <code><a href="reference/set_token.html">set_token()</a></code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Jake-Powell/OMEAPI" class="external-link">OMEAPI</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get all surveys</span></span>
+<span><span class="va">surveys</span> <span class="op">=</span> <span class="fu"><a href="reference/cs_surveys.html">cs_surveys</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># load responses for a particular survey.</span></span>
+<span><span class="va">survey_response</span> <span class="op">=</span> <span class="fu"><a href="reference/cs_surveys.html">cs_surveys_responses</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">surveys</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
