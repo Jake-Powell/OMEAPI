@@ -3,7 +3,7 @@
 \name{cs_surveys}
 \alias{cs_surveys}
 \alias{cs_surveys_responses}
-\title{Pull from CS API - surveys / surveys\{id\} / survey\{id\}/response endpoints}
+\title{Query survey endpoints}
 \usage{
 cs_surveys(token = NULL, id = NA)
 
@@ -20,5 +20,5 @@ cs_surveys_responses(token = NULL, id = NA, output_type = "clean")
 data.frame of pulled information
 }
 \description{
-Pull from CS API - surveys / surveys\{id\} / survey\{id\}/response endpoints
+Query survey endpoints
 }

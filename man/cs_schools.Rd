@@ -2,20 +2,20 @@
 % Please edit documentation in R/pull_from_api.R
 \name{cs_schools}
 \alias{cs_schools}
-\title{Pull from CS API - schools/school endpoint}
+\title{Query school endpoints}
 \usage{
 cs_schools(token = NULL, id = NA, include = NA)
 }
 \arguments{
-\item{token}{token}
+\item{token}{API token}
 
 \item{id}{school ID in CS database. If NA, all schools are pulled.}
 
-\item{include}{Related objects to include. Valid values are: 'class', 'student', 'teacher'. Comma separated list of objects to include.}
+\item{include}{Character vector or objects to include. Accepted values are: 'class', 'student', 'teacher'.}
 }
 \value{
 data.frame of pulled information
 }
 \description{
-Pull from CS API - schools/school endpoint
+A functions to query school-related information from the Cohort Studies API.
 }

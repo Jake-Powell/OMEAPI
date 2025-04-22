@@ -3,3 +3,33 @@ template:
   bootstrap: 5
   light-switch: true
 
+navbar:
+  components:
+    intro:
+      text: Get started
+      href: articles/How-to-use-OMEAPI.html
+  structure:
+    left: [intro, articles, reference, news]
+    right: [search, github, lightswitch]
+
+reference:
+- title: Query API endpoints
+  contents:
+  - cs_schools
+  - cs_surveys
+  - cs_surveys_responses
+  - cs_academic_years
+  - cs_school_years
+  - cs_response_types
+  - cs_response_value_groups
+  - cs_person_types
+  - cs_cohorts
+  - cs_school_types
+
+- title: Authentication functions
+  contents:
+  - set_token
+
+- title: Misc
+  contents:
+  - get_query

@@ -8,7 +8,7 @@
 \alias{cs_person_types}
 \alias{cs_cohorts}
 \alias{cs_school_types}
-\title{Get CS meta information}
+\title{Query meta-information endpoints}
 \usage{
 cs_academic_years(token = NULL)
 
@@ -28,8 +28,38 @@ cs_school_types(token = NULL)
 \item{token}{API token}
 }
 \value{
-academic years database
+Query result in a data frame.
 }
 \description{
-Get CS meta information
+A collection of functions to query "meta-information" from the Cohort Studies API.
+}
+\details{
+Query specific meta-information endpoints of the Cohort Studies database, in particular:
+
+\itemize{
+\item{cs_academic_years(): }{queries /api/Public/academic-years endpoint. }
+\item{cs_school_years(): }{queries /api/Public/school-years endpoint.}
+\item{cs_response_types(): }{queries /api/Public/response-types endpoint.}
+\item{cs_response_value_groups(): }{queries /api/Public/response-value-groups endpoint.}
+\item{cs_person_types(): }{queries /api/Public/person-types endpoint.}
+\item{cs_cohorts(): }{queries /api/Public/cohorts endpoint.}
+\item{cs_school_types(): }{queries /api/Public/school-types endpoint.}
+}
+
+Each function uses \code{\link[=get_query]{get_query()}}  to query specific endpoints.
+}
+\examples{
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Setup API token
+set_token('ENTER_TOKEN_HERE')
+
+# Query each endpoint
+academic_years = cs_academic_years()
+school_years = cs_school_years()
+response_types = cs_response_types()
+response_value_groups = cs_response_value_groups()
+person_types = cs_person_types()
+cohorts = cs_cohorts()
+school_types = cs_school_types()
+\dontshow{\}) # examplesIf}
 }

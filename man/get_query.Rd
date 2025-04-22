@@ -2,22 +2,27 @@
 % Please edit documentation in R/pull_from_api.R
 \name{get_query}
 \alias{get_query}
-\title{Pull from OME database}
+\title{General function for querying API endpoints}
 \usage{
 get_query(url_path, filter = "", token = "", verbose = F)
 }
 \arguments{
-\item{url_path}{the API endpoint}
+\item{url_path}{API endpoint}
 
-\item{filter}{Addition objects to pass via include. (not currently in use)}
+\item{filter}{Addition objects to pass via include.}
 
 \item{token}{API token}
 
-\item{verbose}{Flag (TRUE/FALSE) for console printing.}
+\item{verbose}{Flag (TRUE/FALSE) for console printing (used when there is pagination).}
 }
 \value{
 data frame of pulled information
 }
 \description{
-Pull from OME database
+General function for querying API endpoints
+}
+\details{
+This function queries an API endpoint given by `url_path`. If the endpoint takes arguements these can be passed via the `filter` input which concatenates the endpoint with the value supplied by `filter.` A bearer token is passed using the token input.
+
+Note that this function assumes the API has pagination (adds "?pageNumber=") and will loop over all available pages and rbind the result into a single data frame.
 }
