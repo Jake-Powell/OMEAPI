@@ -49,7 +49,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cs_schools</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NA</span>, include <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cs_schools</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NA</span>, include <span class="op">=</span> <span class="cn">NA</span>, flattern <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,12 +67,49 @@
 <dt id="arg-include">include<a class="anchor" aria-label="anchor" href="#arg-include"></a></dt>
 <dd><p>Character vector or objects to include. Accepted values are: 'class', 'student', 'teacher'.</p></dd>
 
+
+<dt id="arg-flattern">flattern<a class="anchor" aria-label="anchor" href="#arg-flattern"></a></dt>
+<dd><p>a flag (TRUE/FALSE) for whether we convert to a flat data.frame.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>data.frame of pulled information</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Queries /api/Public/schools and /api/Public/schools/{id} endpoints.</p>
+<p>Note that schools are structured such that classes are nested within schools and teachers/students are nested within classes. Therefore, to include "student" and/or "teacher" we must also have "class" as an include parameter.</p>
+<p>By default the returned data.frame can have nested data.frames (within student, etc). By switching `flatten = T` the returned data frame can be flattened (converted to long format) to remove this nested structure.</p>
+    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Setup API token</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="set_token.html">set_token</a></span><span class="op">(</span><span class="st">'ENTER_TOKEN_HERE'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Query all schools.</span></span></span>
+<span class="r-in"><span><span class="va">schools</span> <span class="op">=</span> <span class="fu">cs_schools</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Query schools with all include options.</span></span></span>
+<span class="r-in"><span><span class="va">schools_with_details</span> <span class="op">=</span> <span class="fu">cs_schools</span><span class="op">(</span>include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'class'</span>, <span class="st">'student'</span>, <span class="st">'teacher'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Query schools with only student include option</span></span></span>
+<span class="r-in"><span><span class="co"># (note that without class this is the same as including no options).</span></span></span>
+<span class="r-in"><span><span class="va">schools_with_details</span> <span class="op">=</span> <span class="fu">cs_schools</span><span class="op">(</span>include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'student'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Query a single school</span></span></span>
+<span class="r-in"><span><span class="va">estab_number</span> <span class="op">=</span> <span class="va">schools</span><span class="op">$</span><span class="va">establishmentNumber</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">school</span> <span class="op">=</span> <span class="fu">cs_schools</span><span class="op">(</span>id <span class="op">=</span> <span class="va">estab_number</span>,  include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'class'</span>, <span class="st">'student'</span>, <span class="st">'teacher'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Query a single school where we flattern the student/teacher information.</span></span></span>
+<span class="r-in"><span><span class="va">school_flat</span> <span class="op">=</span> <span class="fu">cs_schools</span><span class="op">(</span>id <span class="op">=</span> <span class="va">estab_number</span>,</span></span>
+<span class="r-in"><span>  include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'class'</span>, <span class="st">'student'</span>, <span class="st">'teacher'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   flattern <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
