@@ -18,8 +18,10 @@
 get_query <- function(url_path, filter='', token = '', verbose = F){
   carry_on = T ; page = 1
   data_all = list()
+
+  # If verbose = true we need to find out the total number of pages and create a cli
+  if(verbose) cli::cli_progress_bar(name = 'Pulling from API...')
   while(carry_on){
-    if(verbose) cli::cli_alert_info(paste0('Pulling page ', page))
     url_use = paste0(url_path, '?pageNumber=',page, filter)
 
     req = httr2::request(url_use) |>
@@ -42,12 +44,20 @@ get_query <- function(url_path, filter='', token = '', verbose = F){
     data_all[[page]] =  data
 
     if(!'hasNextPage' %in% names(body)) break
+
+    if(!exists('total_pages')) total_pages = body$totalPages
+
+    # if(verbose) cli::cli_alert_info(paste0('Pulling page ', page,'/',total_pages))
+    if(verbose) cli::cli_progress_update(set = page,total = total_pages)
+
     if(!body$hasNextPage){
       carry_on = F
     }else{
       page = page + 1
     }
   }
+  if(verbose) cli::cli_progress_done()
+
   data = do.call(rbind, data_all)
   data
 }
@@ -159,7 +169,8 @@ cs_endpoint <- function(token = NULL, endpoint = ''){
 #' @inheritParams get_query
 #' @param include Character vector or objects to include. Accepted values are: 'class', 'student', 'teacher'.
 #' @param id school ID in CS database. If NA, all schools are pulled.
-#' @param flattern a flag (TRUE/FALSE) for whether we convert to a flat data.frame.
+#' @param flatten a flag (TRUE/FALSE) for whether we convert to a flat data.frame.
+#' @param ... variables passed to \code{\link[=get_query]{get_query()}}.
 #' @return data.frame of pulled information
 #' @export
 #'
@@ -191,9 +202,9 @@ cs_endpoint <- function(token = NULL, endpoint = ''){
 #' # Query a single school where we flattern the student/teacher information.
 #' school_flat = cs_schools(id = estab_number,
 #'   include = c('class', 'student', 'teacher'),
-#'    flattern = T)
+#'    flatten = T)
 #'
-cs_schools <- function(token = NULL, id = NA, include = NA, flattern = F){
+cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 
   if(any(!include %in% c('class', 'teacher', 'student', NA))) stop('Invalid `include` values!')
 
@@ -208,9 +219,9 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flattern = F){
     filter =''
   }
 
-  out = get_query(url_use, token = check_token(token),filter = filter)
+  out = get_query(url_use, token = check_token(token),filter = filter, ...)
 
-  if(!flattern){
+  if(!flatten){
     return(out)
   }
   out |> flatten_df()
@@ -242,13 +253,13 @@ cs_surveys <- function(token = NULL, id = NA){
 
 #' @rdname cs_surveys
 #' @export
-cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'clean'){
+cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'clean', ...){
   if(is.na(id)) stop('Require id!')
   assert_is(id, 'numeric')
 
   url_use = paste0(cs_url(), 'surveys/',id,'/responses')
 
-  raw = get_query(url_use, token = check_token(token))
+  raw = get_query(url_use, token = check_token(token),...)
   if(output_type == 'raw') return(raw)
 
   if(!'responses' %in% names(raw)){

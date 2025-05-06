@@ -33,3 +33,4 @@ reference:
 - title: Misc
   contents:
   - get_query
+  - flatten_df

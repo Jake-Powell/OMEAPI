@@ -32,12 +32,11 @@ convert_list_element_to_df <- function(data, column_to_unnest){
   data
 }
 
-#' flattern a data frame with (multiple) list elements
+#' flatten a data frame with (multiple) list elements
 #'
 #' @param df data frame
 #'
-#' @return flatterned data frame
-#' @noRd
+#' @return flat data frame (long format)
 flatten_df <- function(df){
   carry_on = T
   while(carry_on){
@@ -50,4 +49,38 @@ flatten_df <- function(df){
     }
   }
   df
+}
+
+#' Convert 'flattened' survey to wide format.
+#'
+#' @param survey flattened survey.
+#'
+#' @return survey in the wide format.
+#' @export
+#'
+#' @examplesIf FALSE
+#' survey = cs_surveys_responses(id = 'ENTER_ID_HERE')
+#' survey_wide = survey_response_to_wide(survey)
+#'
+survey_response_to_wide <- function(survey){
+  # Combine the text and response value into the column answer (if they exist)
+  answer = rep(NA, nrow(survey))
+  if('responses__value.textResponse' %in% names(survey)) answer = survey$responses__value.textResponse
+  if('responses__value.responseValue.value' %in% names(survey))   answer[is.na(answer)] = survey$responses__value.responseValue.value[is.na(answer)]
+  survey$answer = answer
+
+  questions = survey$responses__question.value |> unique()
+  students = survey$respondent.id |> unique()
+  answers = lapply(questions, function(q){
+    survey_part = survey[survey$responses__question.value == q,]
+    survey_part$answer[match(students, survey_part$respondent.id)]
+  }) |> data.frame()
+  names(answers) = questions
+  out = data.frame(respondent.id = students)
+  respondent_index = match(students, survey$respondent.id)
+  if('respondent.class.id' %in% names(survey)) out$respondent.class.id = survey$respondent.class.id[respondent_index]
+  if('respondent.class.establishmentNumber' %in% names(survey)) out$respondent.class.establishmentNumber = survey$respondent.class.establishmentNumber[respondent_index]
+  out = data.frame(out, answers)
+  names(out)[(ncol(out)-length(questions)+1):ncol(out)] = questions
+  out
 }
