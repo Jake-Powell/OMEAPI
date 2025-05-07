@@ -49,7 +49,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cs_schools</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NA</span>, include <span class="op">=</span> <span class="cn">NA</span>, flattern <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cs_schools</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NA</span>, include <span class="op">=</span> <span class="cn">NA</span>, flatten <span class="op">=</span> <span class="cn">F</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,8 +68,12 @@
 <dd><p>Character vector or objects to include. Accepted values are: 'class', 'student', 'teacher'.</p></dd>
 
 
-<dt id="arg-flattern">flattern<a class="anchor" aria-label="anchor" href="#arg-flattern"></a></dt>
+<dt id="arg-flatten">flatten<a class="anchor" aria-label="anchor" href="#arg-flatten"></a></dt>
 <dd><p>a flag (TRUE/FALSE) for whether we convert to a flat data.frame.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>variables passed to <code><a href="get_query.html">get_query()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -106,7 +110,7 @@
 <span class="r-in"><span><span class="co"># Query a single school where we flattern the student/teacher information.</span></span></span>
 <span class="r-in"><span><span class="va">school_flat</span> <span class="op">=</span> <span class="fu">cs_schools</span><span class="op">(</span>id <span class="op">=</span> <span class="va">estab_number</span>,</span></span>
 <span class="r-in"><span>  include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'class'</span>, <span class="st">'student'</span>, <span class="st">'teacher'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>   flattern <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   flatten <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
@@ -119,7 +123,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>
