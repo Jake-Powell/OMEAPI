@@ -4,7 +4,7 @@
 \alias{cs_schools}
 \title{Query school endpoints}
 \usage{
-cs_schools(token = NULL, id = NA, include = NA, flattern = F)
+cs_schools(token = NULL, id = NA, include = NA, flatten = F, ...)
 }
 \arguments{
 \item{token}{API token}
@@ -13,7 +13,9 @@ cs_schools(token = NULL, id = NA, include = NA, flattern = F)
 
 \item{include}{Character vector or objects to include. Accepted values are: 'class', 'student', 'teacher'.}
 
-\item{flattern}{a flag (TRUE/FALSE) for whether we convert to a flat data.frame.}
+\item{flatten}{a flag (TRUE/FALSE) for whether we convert to a flat data.frame.}
+
+\item{...}{variables passed to \code{\link[=get_query]{get_query()}}.}
 }
 \value{
 data.frame of pulled information
@@ -50,6 +52,6 @@ school = cs_schools(id = estab_number,  include = c('class', 'student', 'teacher
 # Query a single school where we flattern the student/teacher information.
 school_flat = cs_schools(id = estab_number,
   include = c('class', 'student', 'teacher'),
-   flattern = T)
+   flatten = T)
 \dontshow{\}) # examplesIf}
 }

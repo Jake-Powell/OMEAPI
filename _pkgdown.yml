@@ -33,4 +33,5 @@ reference:
 - title: Misc
   contents:
   - get_query
+  - survey_response_to_wide
   - flatten_df

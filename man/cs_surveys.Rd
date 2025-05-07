@@ -7,7 +7,7 @@
 \usage{
 cs_surveys(token = NULL, id = NA)
 
-cs_surveys_responses(token = NULL, id = NA, output_type = "clean")
+cs_surveys_responses(token = NULL, id = NA, output_type = "wide", verbose = F)
 }
 \arguments{
 \item{token}{token}
@@ -15,6 +15,8 @@ cs_surveys_responses(token = NULL, id = NA, output_type = "clean")
 \item{id}{survey ID in CS database. If NA, all surveys are pulled.}
 
 \item{output_type}{output_type}
+
+\item{verbose}{verbose}
 }
 \value{
 data.frame of pulled information

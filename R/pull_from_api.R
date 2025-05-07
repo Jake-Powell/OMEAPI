@@ -234,11 +234,12 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 #' @param token token
 #' @param id survey ID in CS database. If NA, all surveys are pulled.
 #' @param output_type output_type
+#' @param verbose verbose
+
 #'
 #' @return data.frame of pulled information
 #' @export
 #'
-#' @examples
 cs_surveys <- function(token = NULL, id = NA){
 
   url_use = paste0(cs_url(), 'surveys')
@@ -253,22 +254,28 @@ cs_surveys <- function(token = NULL, id = NA){
 
 #' @rdname cs_surveys
 #' @export
-cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'clean', ...){
+cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'wide', verbose = F){
   if(is.na(id)) stop('Require id!')
   assert_is(id, 'numeric')
 
   url_use = paste0(cs_url(), 'surveys/',id,'/responses')
 
-  raw = get_query(url_use, token = check_token(token),...)
-  if(output_type == 'raw') return(raw)
+  raw = get_query(url_use, token = check_token(token), verbose = verbose)
+  if(output_type == 'original') return(raw)
 
   if(!'responses' %in% names(raw)){
     warning('Selected survey has no responses!')
     return(raw)
   }
 
-  raw |> convert_list_element_to_df(column_to_unnest = 'responses') |>
+  if(verbose) cli::cli_alert_info('Converting to long format')
+  cleaned = raw |> convert_list_element_to_df(column_to_unnest = 'responses') |>
     tidyr::unnest(tidyselect::all_of('responses'), names_sep ='__', keep_empty  = T)
+  if(output_type == 'long') return(cleaned)
+
+  if(verbose) cli::cli_alert_info('Converting to wide format')
+
+  cleaned |> survey_response_to_wide()
 
 
 }

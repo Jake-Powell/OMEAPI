@@ -59,7 +59,7 @@ flatten_df <- function(df){
 #' @export
 #'
 #' @examplesIf FALSE
-#' survey = cs_surveys_responses(id = 'ENTER_ID_HERE')
+#' survey = cs_surveys_responses(id = 'ENTER_ID_HERE', output_type = 'original' )
 #' survey_wide = survey_response_to_wide(survey)
 #'
 survey_response_to_wide <- function(survey){
