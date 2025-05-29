@@ -13,8 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# OMEAPI <a href="https://jake-powell.github.io/OMEAPI/"><img src="man/figures/logo.png" align="right" height="139" alt="OMEAPI website" /></a>
-<!-- badges: start -->
+# OMEAPI <a href="https://jake-powell.github.io/OMEAPI/"><img src="man/figures/logo.png" align="right" height="139" alt="OMEAPI website" /></a><!-- badges: start -->
 <!-- badges: end -->
 
 OMEAPI package is used to query the maths cohort studies database and create basic analysis and graphs from the extracted information. The functions within the package cover all endpoints of the cohort studies API. The use of the package requires an API token to use. For information to obtain an API key please contact mathsobservatory@nottingham.ac.uk.
