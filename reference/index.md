@@ -20,7 +20,7 @@
 
 - [`set_token()`](https://jake-powell.github.io/OMEAPI/reference/set_token.md)
   : Set CS token to the environment.
-- [`cl_use_token()`](https://jake-powell.github.io/OMEAPI/reference/cs_use_token.md)
+- [`cs_use_token()`](https://jake-powell.github.io/OMEAPI/reference/cs_use_token.md)
   : Helper to get and save OME API token
 
 ## Misc

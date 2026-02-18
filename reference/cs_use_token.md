@@ -8,7 +8,7 @@ OME team via email.
 ## Usage
 
 ``` r
-cl_use_token()
+cs_use_token()
 ```
 
 ## Details
@@ -23,6 +23,6 @@ effect.
 ``` r
 if (FALSE) { # \dontrun{
 # Display instructions to set up an OME API token
-cl_use_token()
+cs_use_token()
 } # }
 ```
