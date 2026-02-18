@@ -7,12 +7,29 @@
 \usage{
 cs_surveys(token = NULL, id = NA)
 
-cs_surveys_responses(token = NULL, id = NA, output_type = "wide", verbose = F)
+cs_surveys_responses(
+  token = NULL,
+  id = NA,
+  respondentIds = "",
+  teacherIds = "",
+  schoolIds = "",
+  classIds = "",
+  output_type = "wide",
+  verbose = F
+)
 }
 \arguments{
 \item{token}{token}
 
 \item{id}{survey ID in CS database. If NA, all surveys are pulled.}
+
+\item{respondentIds}{verbose}
+
+\item{teacherIds}{verbose}
+
+\item{schoolIds}{verbose}
+
+\item{classIds}{verbose}
 
 \item{output_type}{output_type}
 

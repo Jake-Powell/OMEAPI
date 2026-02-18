@@ -18,11 +18,11 @@
 get_query <- function(url_path, filter='', token = '', verbose = F){
   carry_on = T ; page = 1
   data_all = list()
-
+  if(grepl('\\?',url_path)) sym = '&' else sym = '?'
   # If verbose = true we need to find out the total number of pages and create a cli
   if(verbose) cli::cli_progress_bar(name = 'Pulling from API...')
   while(carry_on){
-    url_use = paste0(url_path, '?pageNumber=',page, filter)
+    url_use = paste0(url_path, sym,'pageNumber=',page, filter)
 
     req = httr2::request(url_use) |>
       httr2::req_user_agent("OMEAPI") |>
@@ -235,7 +235,10 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 #' @param id survey ID in CS database. If NA, all surveys are pulled.
 #' @param output_type output_type
 #' @param verbose verbose
-
+#' @param respondentIds verbose
+#' @param teacherIds verbose
+#' @param schoolIds verbose
+#' @param classIds verbose
 #'
 #' @return data.frame of pulled information
 #' @export
@@ -254,11 +257,23 @@ cs_surveys <- function(token = NULL, id = NA){
 
 #' @rdname cs_surveys
 #' @export
-cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'wide', verbose = F){
+cs_surveys_responses <- function(token = NULL,
+                                 id = NA,
+                                 respondentIds = '',
+                                 teacherIds = '',
+                                 schoolIds = '',
+                                 classIds = '',
+                                 output_type = 'wide',
+                                 verbose = F){
   if(is.na(id)) stop('Require id!')
   assert_is(id, 'numeric')
 
   url_use = paste0(cs_url(), 'surveys/',id,'/responses')
+  url_use = paste0(url_use, '?respondentIds=', paste0(respondentIds, collapse = ','))
+  url_use = paste0(url_use, '&teacherIds=', paste0(teacherIds, collapse = ','))
+  url_use = paste0(url_use, '&schoolIds=', paste0(schoolIds, collapse = ','))
+  url_use = paste0(url_use, '&classIds=', paste0(classIds, collapse = ','))
+
 
   raw = get_query(url_use, token = check_token(token), verbose = verbose)
   if(output_type == 'original') return(raw)
@@ -279,3 +294,4 @@ cs_surveys_responses <- function(token = NULL, id = NA, output_type = 'wide', ve
 
 
 }
+

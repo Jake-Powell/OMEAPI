@@ -3,7 +3,6 @@
 #' @param x object
 #' @param y class of object
 #'
-#' @return
 
 #' @noRd
 assert_is <- function(x,y){
@@ -20,7 +19,6 @@ assert_is <- function(x,y){
 #' @param data data
 #' @param column_to_unnest column_to_unnest
 #'
-#' @return
 #' @noRd
 convert_list_element_to_df <- function(data, column_to_unnest){
   for(i in 1:nrow(data)){

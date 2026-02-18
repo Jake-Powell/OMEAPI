@@ -16,7 +16,7 @@ survey in the wide format.
 Convert 'flattened' survey to wide format.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 survey = cs_surveys_responses(id = 'ENTER_ID_HERE', output_type = 'original' )
 survey_wide = survey_response_to_wide(survey)
 \dontshow{\}) # examplesIf}

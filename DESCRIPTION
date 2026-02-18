@@ -14,7 +14,7 @@ Imports:
     jsonlite,
     tidyr,
     tidyselect
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://github.com/Jake-Powell/OMEAPI, https://jake-powell.github.io/OMEAPI/
 BugReports: https://github.com/Jake-Powell/OMEAPI/issues
 Config/Needs/website: rmarkdown

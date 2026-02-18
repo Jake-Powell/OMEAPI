@@ -31,7 +31,7 @@ Note that schools are structured such that classes are nested within schools and
 By default the returned data.frame can have nested data.frames (within student, etc). By switching `flatten = T` the returned data frame can be flattened (converted to long format) to remove this nested structure.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 # Setup API token
 set_token('ENTER_TOKEN_HERE')
 

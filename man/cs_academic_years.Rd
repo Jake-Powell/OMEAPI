@@ -49,7 +49,7 @@ Query specific meta-information endpoints of the Cohort Studies database, in par
 Each function uses \code{\link[=get_query]{get_query()}}  to query specific endpoints.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (FALSE) withAutoprint(\{ # examplesIf}
 # Setup API token
 set_token('ENTER_TOKEN_HERE')
 
