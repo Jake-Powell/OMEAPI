@@ -44,7 +44,7 @@ set_token <- function(token){
 #' # Display instructions to set up an OME API token
 #' cl_use_token()
 #' }
-cl_use_token <- function()
+cs_use_token <- function()
 {
   cli::cli_h2("To get and save an OME API key, follow these steps:")
   cli::cli_ol()

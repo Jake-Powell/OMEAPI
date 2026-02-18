@@ -29,6 +29,7 @@ reference:
 - title: Authentication functions
   contents:
   - set_token
+  - cs_use_token
 
 - title: Misc
   contents:
