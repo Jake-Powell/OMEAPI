@@ -30,19 +30,19 @@ set_token <- function(token){
 #' that requires authentication. Obtaining a token requires contacting
 #' the OME team via email.
 #'
-#' @usage cl_use_token()
+#' @usage cs_use_token()
 #'
 #' @details
 #' After requesting access, you will receive an API token by email.
 #' Once received, the token should be stored in your \file{.Renviron}
 #' file under the name \env{OME_CS_TOKEN} and R must be restarted for
 #' the change to take effect.
-#'
+#' @export
 #'
 #' @examples
 #' \dontrun{
 #' # Display instructions to set up an OME API token
-#' cl_use_token()
+#' cs_use_token()
 #' }
 cs_use_token <- function()
 {

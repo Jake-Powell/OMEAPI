@@ -4,7 +4,7 @@
 \alias{cs_use_token}
 \title{Helper to get and save OME API token}
 \usage{
-cl_use_token()
+cs_use_token()
 }
 \description{
 Provides instructions on how to obtain and store an API token for the
@@ -21,6 +21,6 @@ the change to take effect.
 \examples{
 \dontrun{
 # Display instructions to set up an OME API token
-cl_use_token()
+cs_use_token()
 }
 }
