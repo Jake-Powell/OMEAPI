@@ -252,7 +252,7 @@ cs_surveys <- function(token = NULL, id = NA, cohortId = NA){
 
   }
   if(!is.na(cohortId)){
-    url_use = paste0(url_use, '/?cohortId=', id)
+    url_use = paste0(url_use, '/?cohortId=', cohortId)
 
   }
 
