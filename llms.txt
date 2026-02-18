@@ -1,0 +1,73 @@
+# OMEAPI
+
+OMEAPI package is used to query the maths cohort studies database and
+create basic analysis and graphs from the extracted information. The
+functions within the package cover all endpoints of the cohort studies
+API. The use of the package requires an API token to use. For
+information to obtain an API key please contact
+<mathsobservatory@nottingham.ac.uk>.
+
+# Installation
+
+``` r
+remotes::install_github("Jake-Powell/OMEAPI")
+```
+
+------------------------------------------------------------------------
+
+# Example
+
+For the example below to work you will need an API token which you can
+set with
+[`set_token()`](https://jake-powell.github.io/OMEAPI/reference/set_token.md).
+
+``` r
+library(OMEAPI)
+
+# Get all surveys
+surveys = cs_surveys()
+
+# load responses for a particular survey.
+survey_response = cs_surveys_responses(id = surveys$id[1] |> as.numeric())
+```
+
+# Package index
+
+## Query API endpoints
+
+- [`cs_schools()`](https://jake-powell.github.io/OMEAPI/reference/cs_schools.md)
+  : Query school endpoints
+- [`cs_surveys()`](https://jake-powell.github.io/OMEAPI/reference/cs_surveys.md)
+  [`cs_surveys_responses()`](https://jake-powell.github.io/OMEAPI/reference/cs_surveys.md)
+  : Query survey endpoints
+- [`cs_academic_years()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  [`cs_school_years()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  [`cs_response_types()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  [`cs_response_value_groups()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  [`cs_person_types()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  [`cs_cohorts()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  [`cs_school_types()`](https://jake-powell.github.io/OMEAPI/reference/cs_academic_years.md)
+  : Query meta-information endpoints
+
+## Authentication functions
+
+- [`set_token()`](https://jake-powell.github.io/OMEAPI/reference/set_token.md)
+  : Set CS token to the environment.
+- [`cl_use_token()`](https://jake-powell.github.io/OMEAPI/reference/cs_use_token.md)
+  : Helper to get and save OME API token
+
+## Misc
+
+- [`get_query()`](https://jake-powell.github.io/OMEAPI/reference/get_query.md)
+  : General function for querying API endpoints
+- [`survey_response_to_wide()`](https://jake-powell.github.io/OMEAPI/reference/survey_response_to_wide.md)
+  : Convert 'flattened' survey to wide format.
+- [`flatten_df()`](https://jake-powell.github.io/OMEAPI/reference/flatten_df.md)
+  : flatten a data frame with (multiple) list elements
+
+# Articles
+
+### All vignettes
+
+- [Introduction to
+  OMEAPI](https://jake-powell.github.io/OMEAPI/articles/How-to-use-OMEAPI.md):

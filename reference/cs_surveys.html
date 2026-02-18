@@ -51,7 +51,16 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cs_surveys</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">cs_surveys_responses</span><span class="op">(</span>token <span class="op">=</span> <span class="cn">NULL</span>, id <span class="op">=</span> <span class="cn">NA</span>, output_type <span class="op">=</span> <span class="st">"wide"</span>, verbose <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">cs_surveys_responses</span><span class="op">(</span></span>
+<span>  token <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  respondentIds <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  teacherIds <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  schoolIds <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  classIds <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  output_type <span class="op">=</span> <span class="st">"wide"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">F</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,6 +73,22 @@
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
 <dd><p>survey ID in CS database. If NA, all surveys are pulled.</p></dd>
+
+
+<dt id="arg-respondentids">respondentIds<a class="anchor" aria-label="anchor" href="#arg-respondentids"></a></dt>
+<dd><p>verbose</p></dd>
+
+
+<dt id="arg-teacherids">teacherIds<a class="anchor" aria-label="anchor" href="#arg-teacherids"></a></dt>
+<dd><p>verbose</p></dd>
+
+
+<dt id="arg-schoolids">schoolIds<a class="anchor" aria-label="anchor" href="#arg-schoolids"></a></dt>
+<dd><p>verbose</p></dd>
+
+
+<dt id="arg-classids">classIds<a class="anchor" aria-label="anchor" href="#arg-classids"></a></dt>
+<dd><p>verbose</p></dd>
 
 
 <dt id="arg-output-type">output_type<a class="anchor" aria-label="anchor" href="#arg-output-type"></a></dt>
@@ -88,7 +113,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

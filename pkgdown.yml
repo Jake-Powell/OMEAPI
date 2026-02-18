@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   articles/How-to-use-OMEAPI: How-to-use-OMEAPI.html
-last_built: 2025-05-29T15:14Z
+last_built: 2026-02-18T11:54Z
 urls:
   reference: https://jake-powell.github.io/OMEAPI/reference
   article: https://jake-powell.github.io/OMEAPI/articles
