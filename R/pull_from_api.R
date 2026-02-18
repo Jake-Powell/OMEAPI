@@ -235,6 +235,7 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 #' @param id survey ID in CS database. If NA, all surveys are pulled.
 #' @param output_type output_type
 #' @param verbose verbose
+#' @param cohortId verbose
 #' @param respondentIds verbose
 #' @param teacherIds verbose
 #' @param schoolIds verbose
@@ -243,11 +244,15 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 #' @return data.frame of pulled information
 #' @export
 #'
-cs_surveys <- function(token = NULL, id = NA){
+cs_surveys <- function(token = NULL, id = NA, cohortId = NA){
 
   url_use = paste0(cs_url(), 'surveys')
   if(!is.na(id)){
     url_use = paste0(url_use, '/', id)
+
+  }
+  if(!is.na(cohortId)){
+    url_use = paste0(url_use, '/?cohortId=', id)
 
   }
 

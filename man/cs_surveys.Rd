@@ -5,7 +5,7 @@
 \alias{cs_surveys_responses}
 \title{Query survey endpoints}
 \usage{
-cs_surveys(token = NULL, id = NA)
+cs_surveys(token = NULL, id = NA, cohortId = NA)
 
 cs_surveys_responses(
   token = NULL,
@@ -22,6 +22,8 @@ cs_surveys_responses(
 \item{token}{token}
 
 \item{id}{survey ID in CS database. If NA, all surveys are pulled.}
+
+\item{cohortId}{verbose}
 
 \item{respondentIds}{verbose}
 
