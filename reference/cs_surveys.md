@@ -5,7 +5,7 @@ Query survey endpoints
 ## Usage
 
 ``` r
-cs_surveys(token = NULL, id = NA)
+cs_surveys(token = NULL, id = NA, cohortId = NA)
 
 cs_surveys_responses(
   token = NULL,
@@ -28,6 +28,10 @@ cs_surveys_responses(
 - id:
 
   survey ID in CS database. If NA, all surveys are pulled.
+
+- cohortId:
+
+  verbose
 
 - respondentIds:
 
