@@ -1,10 +1,10 @@
 # OMEAPI
 
-OMEAPI package is used to query the maths cohort studies database and
-create basic analysis and graphs from the extracted information. The
-functions within the package cover all endpoints of the cohort studies
-API. The use of the package requires an API token to use. For
-information to obtain an API key please contact
+OMEAPI package is used to query the Data Platform for the Observatory
+for Mathematical Education (DOME) and create basic analysis and graphs
+from the extracted information. The functions within the package cover
+all endpoints of the DOME API. The use of the package requires an API
+token to use. For information to obtain an API key please contact
 <mathsobservatory@nottingham.ac.uk>.
 
 # Installation

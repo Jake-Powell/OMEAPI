@@ -5,32 +5,33 @@ library(OMEAPI)
 ```
 
 **This article explains how to use the OMEAPI R package to connect to
-and pull from the OME database.**
+and pull from DOME.**
 
 ------------------------------------------------------------------------
 
 ## Authentication
 
-OME requires you to get have an API token, an alphanumeric string that
-you need to send in every request. You will need to contact the OME data
-manager for create a token for you.
-
-Keep this token private. You can pass the token in to each function via
-the token parameter, but it’s better to store the token either as a
-environment variable (OME_CS_TOKEN).
+DOME requires you to get your own API token, an alphanumeric string that
+you need to send in every request. The cs_use_token() function in the
+package can walk you through getting your own key and storing it
+locally. Once you store this key, the functions in OMEAPI will always
+default to using this key.
 
 ``` r
-OMEAPI::set_token('TOKEN_VALUE_HERE')
+OMEAPI::cs_use_token()
 ```
 
-Once set you no longer need to pass the token to individual functions.
-This wil persist until the session is ended.
+Keep this key private. You can pass the key in to each function via the
+key parameter, but it’s better to store the key as a environment
+variable (OME_CS_TOKEN).
 
 ------------------------------------------------------------------------
 
 ## Overview of available features
 
-Query survey information (e.g., cs_surveys() and cs_surveys_responses())
-Query school (class, pupil, teacher, parent) information (e.g.,
-cs_schools()) Query meta-information (e.g., cs_school_types(),
-cs_person_types(), cs_response_value_groups(), cs_response_types(), etc)
+- Query survey information (e.g., cs_surveys() and
+  cs_surveys_responses())
+- Query school (class, pupil, teacher, parent) information (e.g.,
+  cs_schools())
+- Query meta-information (e.g., cs_school_types(), cs_person_types(),
+  cs_response_value_groups(), cs_response_types(), etc)
