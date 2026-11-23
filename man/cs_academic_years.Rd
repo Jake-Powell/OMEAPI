@@ -25,7 +25,7 @@ cs_cohorts(token = NULL)
 cs_school_types(token = NULL)
 }
 \arguments{
-\item{token}{API token}
+\item{token}{API bearer token.}
 }
 \value{
 Query result in a data frame.

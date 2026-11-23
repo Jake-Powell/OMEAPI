@@ -76,9 +76,12 @@ survey_response_to_wide <- function(survey){
   names(answers) = questions
   out = data.frame(respondent.id = students)
   respondent_index = match(students, survey$respondent.PERSON_ID)
-  if('respondent.class.id' %in% names(survey)) out$respondent.class.id = survey$respondent.class.id[respondent_index]
-  if('respondent.class.establishmentNumber' %in% names(survey)) out$respondent.class.establishmentNumber = survey$respondent.class.establishmentNumber[respondent_index]
+  if('respondent.class.CLASS_ID' %in% names(survey)) out$CLASS_ID = survey$respondent.class.CLASS_ID[respondent_index]
+  if('respondent.class.EST_ID' %in% names(survey)) out$EST_ID = survey$respondent.class.EST_ID[respondent_index]
+  if('respondent.EST_ID' %in% names(survey)) out$EST_ID = survey$respondent.EST_ID[respondent_index]
+
+  if(('EST_ID' %in% names(answers)) & ('EST_ID' %in% names(out))) answers$EST_ID = NULL # (tad o risky)
   out = data.frame(out, answers)
-  names(out)[(ncol(out)-length(questions)+1):ncol(out)] = questions
+  names(out)[(ncol(out)-ncol(answers)+1):ncol(out)] = names(answers)
   out
 }
