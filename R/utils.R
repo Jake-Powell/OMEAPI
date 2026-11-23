@@ -68,14 +68,14 @@ survey_response_to_wide <- function(survey){
   survey$answer = answer
 
   questions = survey$responses__question.value |> unique()
-  students = survey$respondent.id |> unique()
+  students = survey$respondent.PERSON_ID |> unique()
   answers = lapply(questions, function(q){
     survey_part = survey[survey$responses__question.value == q,]
-    survey_part$answer[match(students, survey_part$respondent.id)]
+    survey_part$answer[match(students, survey_part$respondent.PERSON_ID)]
   }) |> data.frame()
   names(answers) = questions
   out = data.frame(respondent.id = students)
-  respondent_index = match(students, survey$respondent.id)
+  respondent_index = match(students, survey$respondent.PERSON_ID)
   if('respondent.class.id' %in% names(survey)) out$respondent.class.id = survey$respondent.class.id[respondent_index]
   if('respondent.class.establishmentNumber' %in% names(survey)) out$respondent.class.establishmentNumber = survey$respondent.class.establishmentNumber[respondent_index]
   out = data.frame(out, answers)

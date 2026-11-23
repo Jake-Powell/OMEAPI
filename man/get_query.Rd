@@ -4,25 +4,31 @@
 \alias{get_query}
 \title{General function for querying API endpoints}
 \usage{
-get_query(url_path, filter = "", token = "", verbose = F)
+get_query(
+  url_path,
+  filter = "",
+  token = "",
+  verbose = FALSE,
+  pageSize = 1000,
+  n = 0
+)
 }
 \arguments{
-\item{url_path}{API endpoint}
+\item{url_path}{API endpoint.}
 
-\item{filter}{Addition objects to pass via include.}
+\item{filter}{Additional query parameters.}
 
-\item{token}{API token}
+\item{token}{API bearer token.}
 
-\item{verbose}{Flag (TRUE/FALSE) for console printing (used when there is pagination).}
+\item{verbose}{Show pagination progress.}
+
+\item{pageSize}{Maximum number of records per page.}
+
+\item{n}{Total number of records to retrieve. 0 retrieves all.}
 }
 \value{
-data frame of pulled information
+Data frame of pulled information.
 }
 \description{
 General function for querying API endpoints
-}
-\details{
-This function queries an API endpoint given by `url_path`. If the endpoint takes arguements these can be passed via the `filter` input which concatenates the endpoint with the value supplied by `filter.` A bearer token is passed using the token input.
-
-Note that this function assumes the API has pagination (adds "?pageNumber=") and will loop over all available pages and rbind the result into a single data frame.
 }

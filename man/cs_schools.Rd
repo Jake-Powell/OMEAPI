@@ -7,7 +7,7 @@
 cs_schools(token = NULL, id = NA, include = NA, flatten = F, ...)
 }
 \arguments{
-\item{token}{API token}
+\item{token}{API bearer token.}
 
 \item{id}{school ID in CS database. If NA, all schools are pulled.}
 

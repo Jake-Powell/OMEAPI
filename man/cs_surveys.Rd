@@ -10,20 +10,24 @@ cs_surveys(token = NULL, id = NA, cohortId = NA)
 cs_surveys_responses(
   token = NULL,
   id = NA,
+  name = NA,
   respondentIds = "",
   teacherIds = "",
   schoolIds = "",
   classIds = "",
   output_type = "wide",
-  verbose = F
+  verbose = F,
+  ...
 )
 }
 \arguments{
 \item{token}{token}
 
-\item{id}{survey ID in CS database. If NA, all surveys are pulled.}
+\item{id}{survey ID in DOME. If NA, all surveys are pulled.}
 
 \item{cohortId}{verbose}
+
+\item{name}{survey name in DOME.}
 
 \item{respondentIds}{verbose}
 
@@ -36,6 +40,8 @@ cs_surveys_responses(
 \item{output_type}{output_type}
 
 \item{verbose}{verbose}
+
+\item{...}{verbose}
 }
 \value{
 data.frame of pulled information

@@ -1,71 +1,129 @@
+
 #' General function for querying API endpoints
 #'
-#' @param url_path API endpoint
-#' @param filter Addition objects to pass via include.
-#' @param token API token
-#' @param verbose Flag (TRUE/FALSE) for console printing (used when there is pagination).
+#' @param url_path API endpoint.
+#' @param filter Additional query parameters.
+#' @param token API bearer token.
+#' @param verbose Show pagination progress.
+#' @param pageSize Maximum number of records per page.
+#' @param n Total number of records to retrieve. 0 retrieves all.
 #'
-#' @return data frame of pulled information
+#' @return Data frame of pulled information.
 #' @export
-#'
-#' @details
-#' This function queries an API endpoint given by `url_path`. If the endpoint takes arguements these can be passed via the `filter` input which concatenates the endpoint with the value supplied by `filter.` A bearer token is passed using the token input.
-#'
-#' Note that this function assumes the API has pagination (adds "?pageNumber=") and will loop over all available pages and rbind the result into a single data frame.
-#'
-#'
-#'
-get_query <- function(url_path, filter='', token = '', verbose = F){
-  carry_on = T ; page = 1
+get_query <- function(url_path, filter = '', token = '',
+                      verbose = FALSE, pageSize = 1000, n = 0) {
+
+  if (length(pageSize) != 1L || is.na(pageSize) ||
+      !is.numeric(pageSize) || !is.finite(pageSize) ||
+      pageSize < 1 || pageSize != floor(pageSize)) {
+    stop("pageSize must be a positive integer.")
+  }
+
+  if (length(n) != 1L || is.na(n) ||
+      !is.numeric(n) || !is.finite(n) ||
+      n < 0 || n != floor(n)) {
+    stop("n must be a non-negative integer.")
+  }
+
+  page = 1
+  records_pulled = 0
   data_all = list()
-  if(grepl('\\?',url_path)) sym = '&' else sym = '?'
-  # If verbose = true we need to find out the total number of pages and create a cli
-  if(verbose) cli::cli_progress_bar(name = 'Pulling from API...')
-  while(carry_on){
-    url_use = paste0(url_path, sym,'pageNumber=',page, filter)
+
+  sym = if (grepl("\\?", url_path)) "&" else "?"
+
+  if (verbose) {
+    cli::cli_progress_bar(
+      name = "Pulling from API...",
+      total = if (n > 0) n else NA
+    )
+    on.exit(cli::cli_progress_done(), add = TRUE)
+  }
+
+  repeat {
+
+    # Request only the remaining records if n is specified
+    current_pageSize = if (n == 0) {
+      pageSize
+    } else {
+      min(pageSize, n - records_pulled)
+    }
+
+    url_use = paste0(
+      url_path, sym,
+      "pageNumber=", page,
+      "&pageSize=", current_pageSize,
+      filter
+    )
 
     req = httr2::request(url_use) |>
       httr2::req_user_agent("OMEAPI") |>
       httr2::req_auth_bearer_token(token = token) |>
       httr2::req_perform()
 
-    body = req$body |> rawToChar() |> jsonlite::prettify() |> jsonlite::fromJSON(simplifyDataFrame = T,flatten = T)
-    if('list' %in% names(body)){
-      data = body$list |> as.data.frame()
-    }else{
-      # added to stop list() from causing an error using as.data.frame().
-      for(i in 1:length(body)){
-        if(body[[i]] |> is.list() & length(body[[i]]) == 0){
+    body = req$body |>
+      rawToChar() |>
+      jsonlite::fromJSON(
+        simplifyDataFrame = TRUE,
+        flatten = TRUE
+      )
+
+    if ("list" %in% names(body)) {
+      data = as.data.frame(body$list)
+    } else {
+      for (i in seq_along(body)) {
+        if (is.list(body[[i]]) && length(body[[i]]) == 0) {
           body[[i]] = NA
         }
       }
-      data = body |> as.data.frame()
+      data = as.data.frame(body)
     }
-    data_all[[page]] =  data
 
-    if(!'hasNextPage' %in% names(body)) break
-
-    if(!exists('total_pages')) total_pages = body$totalPages
-
-    # if(verbose) cli::cli_alert_info(paste0('Pulling page ', page,'/',total_pages))
-    if(verbose) cli::cli_progress_update(set = page,total = total_pages)
-
-    if(!body$hasNextPage){
-      carry_on = F
-    }else{
-      page = page + 1
+    # Ensure we never return more than n records
+    if (n > 0 && nrow(data) > n - records_pulled) {
+      data = utils::head(data, n - records_pulled)
     }
+
+    data_all[[page]] = data
+    records_pulled = records_pulled + nrow(data)
+
+    if (verbose) {
+      if (n > 0) {
+        cli::cli_progress_update(set = records_pulled)
+      } else {
+        cli::cli_progress_update(
+          set = page,
+          total = if ("totalPages" %in% names(body)) {
+            body$totalPages
+          } else {
+            NA
+          }
+        )
+      }
+    }
+
+    # Stop if requested number of records has been reached
+    if (n > 0 && records_pulled >= n) break
+
+    # Stop if API has no more pages
+    if (!"hasNextPage" %in% names(body)) break
+    if (!isTRUE(body$hasNextPage)) break
+
+    # Avoid infinite pagination on empty responses
+    if (nrow(data) == 0) break
+
+    page = page + 1
   }
-  if(verbose) cli::cli_progress_done()
 
-  data = do.call(rbind, data_all)
-  data
+  if (length(data_all) == 0) return(data.frame())
+
+  dplyr::bind_rows(data_all)
 }
+
 
 #' Get base url
 #' @noRd
 cs_url <- function(){
-  return("https://mathscohortstudies-uat-backend.azurewebsites.net/api/Public/")
+  return("https://mathscohortstudies-prod-backend.azurewebsites.net/api/Public/")
 }
 
 #' Query meta-information endpoints
@@ -232,7 +290,8 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 #' Query survey endpoints
 #'
 #' @param token token
-#' @param id survey ID in CS database. If NA, all surveys are pulled.
+#' @param id survey ID in DOME. If NA, all surveys are pulled.
+#' @param name survey name in DOME.
 #' @param output_type output_type
 #' @param verbose verbose
 #' @param cohortId verbose
@@ -240,6 +299,7 @@ cs_schools <- function(token = NULL, id = NA, include = NA, flatten = F, ...){
 #' @param teacherIds verbose
 #' @param schoolIds verbose
 #' @param classIds verbose
+#' @param ... verbose
 #'
 #' @return data.frame of pulled information
 #' @export
@@ -264,13 +324,20 @@ cs_surveys <- function(token = NULL, id = NA, cohortId = NA){
 #' @export
 cs_surveys_responses <- function(token = NULL,
                                  id = NA,
+                                 name = NA,
                                  respondentIds = '',
                                  teacherIds = '',
                                  schoolIds = '',
                                  classIds = '',
                                  output_type = 'wide',
-                                 verbose = F){
-  if(is.na(id)) stop('Require id!')
+                                 verbose = F, ...){
+  if(is.na(id) & is.na(name)) stop('Require id or name!')
+  if(is.na(id)){
+    all_surveys = cs_surveys()
+    id = all_surveys$id[match(name |> tolower(), all_surveys$name |> tolower())] |> as.numeric()
+    if(is.na(id)) stop('`name` does not correspond to a survey in DOME!')
+  }
+  if(is.na(id)) stop('`id` not found in surveys list!')
   assert_is(id, 'numeric')
 
   url_use = paste0(cs_url(), 'surveys/',id,'/responses')
@@ -280,7 +347,7 @@ cs_surveys_responses <- function(token = NULL,
   url_use = paste0(url_use, '&classIds=', paste0(classIds, collapse = ','))
 
 
-  raw = get_query(url_use, token = check_token(token), verbose = verbose)
+  raw = get_query(url_use, token = check_token(token), verbose = verbose,...)
   if(output_type == 'original') return(raw)
 
   if(!'responses' %in% names(raw)){
@@ -300,3 +367,45 @@ cs_surveys_responses <- function(token = NULL,
 
 }
 
+#' Query parents endpoints
+#'
+#' @description
+#' A functions to query parents from the Cohort Studies API.
+#'
+#' @inheritParams get_query
+#' @param id parent ID
+#' @param flatten a flag (TRUE/FALSE) for whether we convert to a flat data.frame.
+#' @param ... variables passed to \code{\link[=get_query]{get_query()}}.
+#' @return data.frame of pulled information
+#' @export
+#'
+#' @details
+#' Queries /api/Public/parents and /api/Public/parents/\{id\} endpoints.
+#'
+#'
+#' By default the returned data.frame can have nested data.frames (within student, etc). By switching `flatten = T` the returned data frame can be flattened (converted to long format) to remove this nested structure.
+#'
+#' @examplesIf FALSE
+#' # Setup API token
+#' set_token('ENTER_TOKEN_HERE')
+#'
+#' # Query all schools.
+#' schools = cs_parents()
+#'
+#'
+cs_parents <- function(token = NULL, id = NA, flatten = F, ...){
+
+  url_use = paste0(cs_url(), 'parents')
+  if(!is.na(id)){
+    url_use = paste0(url_use, '/', id)
+  }
+
+
+  out = get_query(url_use, token = check_token(token),filter = '', ...)
+
+  if(!flatten){
+    return(out)
+  }
+  out |> flatten_df()
+
+}

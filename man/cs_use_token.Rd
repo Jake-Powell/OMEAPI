@@ -2,7 +2,19 @@
 % Please edit documentation in R/token_management.R
 \name{cs_use_token}
 \alias{cs_use_token}
-\title{Helper to get and save OME API token}
+\title{#' Set CS token to the environment.
+#'
+#' @param token token
+#'
+#' @export
+#'
+#' @details
+#' Given an CS token to access the CS database, store the token in the local environment. This means you don't need to pass the token to each call to the API. Moreover, you can set once and delete thus not have the token on display in R files.
+#'
+set_token <- function(token){
+  Sys.setenv("OME_CS_TOKEN" = token)
+}
+Helper to get and save OME API token}
 \usage{
 cs_use_token()
 }
